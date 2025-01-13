@@ -1,0 +1,5 @@
+escpos==2.0.0
+fastapi==0.115.6
+uvicorn==0.34.0
+matplotlib==3.8.0
+py-sudoku==2.0.0
