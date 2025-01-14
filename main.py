@@ -19,18 +19,18 @@ async def root():
 class DailyReportRequest(BaseModel):
     todos: list[str]
 
-@app.post("/dailyreport")
-async def dailyreport(data: DailyReportRequest):
+@app.post("/daily")
+async def daily(data: DailyReportRequest):
     """
     Print a daily report.
     """
     return {"message": "Generating daily report", "todos": data.todos}
 
-class ShoppingListRequest(BaseModel):
+class ShoppingRequest(BaseModel):
     items: list[str]
 
-@app.post("/shoppinglist")
-async def shoppinglist(data: ShoppingListRequest):
+@app.post("/shopping")
+async def shopping(data: ShoppingRequest):
     """
     Print a shopping list.
     """
@@ -63,6 +63,17 @@ async def qr(data: QRRequest):
     p.qr(data.data, size=15, center=True)
     p.cut()
     return {"message": "Printed QR code", "data": data.data}
+
+class TextRequest(BaseModel):
+    title: str | None = None
+    text: str
+
+@app.post("/text")
+async def text(data: TextRequest):
+    """
+    Print a text.
+    """
+    return {"message": "Generating text", "title": data.title, "text": data.text}
 
 if __name__ == "__main__":
     uvicorn.run("main:app", host="192.168.178.45", port=8000, reload=True)
