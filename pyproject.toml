@@ -4,12 +4,15 @@ version = "0.1.0"
 description = ""
 authors = ["Kilian Koeltzsch <me@kilian.io>"]
 readme = "README.md"
+package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.11"
 escpos = "^2.0.0"
 fastapi = "^0.115.6"
 uvicorn = "^0.34.0"
+py-sudoku = "^2.0.0"
+matplotlib = "^3.10.0"
 
 
 [build-system]

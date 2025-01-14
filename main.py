@@ -8,7 +8,8 @@ from escpos.printer import Usb
 from sudoku import Sudoku
 from draw_sudoku import draw_sudoku
 
-p = Usb(0x04b8, 0x0e28, profile="TM-T88III")  # VendorID and ProductID, see lsusb
+# TODO: Read VendorID and ProductID from `lsusb` output on startup
+p = Usb(0x04b8, 0x0e28, profile="TM-T88III")
 
 app = FastAPI()
 
