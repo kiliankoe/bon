@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 
 def draw_sudoku(grid, filename='sudoku.png'):
-    fig, ax = plt.subplots(figsize=(5.7, 5.7))
+    fig, ax = plt.subplots(figsize=(6, 6))
     ax.set_xlim(0, 9)
     ax.set_ylim(0, 9)
     ax.set_aspect('equal')

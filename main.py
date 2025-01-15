@@ -40,7 +40,7 @@ async def shopping(data: ShoppingRequest):
     p.ln(2)
     p.set(align="left", font="b", bold=False, width=2, height=2, custom_size=True)
     for item in data.items:
-        p.textln(f"  [ ] {item}")
+        p.textln(f"  - {item}")
         p.ln(1)
     p.ln(4)
     p.cut()
@@ -59,6 +59,7 @@ async def sudoku(data: SudokuRequest):
         os.remove("sudoku.png")
     draw_sudoku(puzzle.board)
     p.image("sudoku.png")
+    p.ln(2)
     p.cut()
     return {"message": "Generating puzzle", "difficulty": data.difficulty}
 
