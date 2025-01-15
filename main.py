@@ -75,13 +75,14 @@ async def furby():
 
 class QRRequest(BaseModel):
     data: str
+    size: int = 15
 
 @app.post("/qr")
 async def qr(data: QRRequest):
     """
     Print a QR code.
     """
-    p.qr(data.data, size=15, center=True)
+    p.qr(data.data, size=data.size, center=True)
     p.cut()
     return {"message": "Printed QR code", "data": data.data}
 
