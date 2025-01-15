@@ -35,6 +35,15 @@ async def shopping(data: ShoppingRequest):
     """
     Print a shopping list.
     """
+    p.set(align="center", font="b", bold=True, width=3, height=3, custom_size=True)
+    p.textln("Einkaufsliste")
+    p.ln(2)
+    p.set(align="left", font="b", bold=False, width=2, height=2, custom_size=True)
+    for item in data.items:
+        p.textln(f"  [ ] {item}")
+        p.ln(1)
+    p.ln(4)
+    p.cut()
     return {"message": "Generating shopping list", "items": data.items}
 
 class SudokuRequest(BaseModel):
