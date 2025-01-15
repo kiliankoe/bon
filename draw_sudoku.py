@@ -15,7 +15,7 @@ def draw_sudoku(grid, filename='sudoku.png'):
         for c in range(9):
             if grid[r][c] not in [0, None]:
                 ax.text(c + 0.5, 8.5 - r, str(grid[r][c]),
-                        fontsize=24, fontweight='bold', ha='center', va='center')
+                        fontsize=26, fontweight='bold', ha='center', va='center')
 
     ax.axis('off')
     plt.tight_layout()
