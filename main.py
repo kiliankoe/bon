@@ -7,6 +7,7 @@ from pydantic import BaseModel, Field
 from escpos.printer import Usb
 from sudoku import Sudoku
 from draw_sudoku import draw_sudoku
+import textwrap
 
 # TODO: Read VendorID and ProductID from `lsusb` output on startup
 p = Usb(0x04b8, 0x0e28, profile="TM-T88III")
@@ -94,13 +95,13 @@ async def text(data: TextRequest):
     Print text.
     """
     if data.title:
-        p.set(bold=True)
-        p.text(data.title)
-        p.set(bold=False)
-        p.text("\n")
-    p.text(data.text)
+        p.set(bold=True, double_height=True, double_width=True, underline=2)
+        p.textln(data.title)
+        p.set(bold=False, double_height=False, double_width=False, underline=False)
+        p.ln(1)
+    p.text(textwrap.fill(data.text, width=48))
     p.cut()
-    return {"message": "Generating text", "title": data.title, "text": data.text}
+    return {"message": "Printed text", "title": data.title, "text": data.text}
 
 if __name__ == "__main__":
     uvicorn.run("main:app", host="192.168.178.45", port=8000, reload=True)
