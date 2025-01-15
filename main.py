@@ -72,8 +72,15 @@ class TextRequest(BaseModel):
 @app.post("/text")
 async def text(data: TextRequest):
     """
-    Print a text.
+    Print text.
     """
+    if data.title:
+        p.set(bold=True)
+        p.text(data.title)
+        p.set(bold=False)
+        p.text("\n")
+    p.text(data.text)
+    p.cut()
     return {"message": "Generating text", "title": data.title, "text": data.text}
 
 if __name__ == "__main__":
