@@ -63,6 +63,15 @@ async def sudoku(data: SudokuRequest):
     p.cut()
     return {"message": "Generating puzzle", "difficulty": data.difficulty}
 
+@app.post("/furby")
+async def furby():
+    """
+    Print a furby.
+    """
+    p.image("furby.png")
+    p.cut()
+    return {"message": "Generating furby", "cuteness": 1}
+
 class QRRequest(BaseModel):
     data: str
 
