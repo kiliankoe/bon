@@ -9,6 +9,8 @@ from sudoku import Sudoku
 from draw_sudoku import draw_sudoku
 import textwrap
 
+from util import cat_announcement
+
 # TODO: Read VendorID and ProductID from `lsusb` output on startup
 p = Usb(0x04b8, 0x0e28, profile="TM-T88III")
 
@@ -26,6 +28,10 @@ async def daily(data: DailyReportRequest):
     """
     Print a daily report.
     """
+    cat_announcement(p)
+    p.textln("Daily Report")
+    p.ln(2)
+    p.cut()
     return {"message": "Generating daily report", "todos": data.todos}
 
 class ShoppingRequest(BaseModel):
