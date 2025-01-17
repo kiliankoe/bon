@@ -49,9 +49,29 @@ async def shopping(data: ShoppingRequest):
     for item in data.items:
         p.textln(f"  - {item}")
         p.ln(1)
-    p.ln(4)
+    p.ln(5)
     p.cut()
     return {"message": "Generating shopping list", "items": data.items}
+
+class TodoRequest(BaseModel):
+    title: str = "ToDo"
+    todos: list[str]
+
+@app.post("/todo")
+async def todo(data: TodoRequest):
+    """
+    Print a todo list.
+    """
+    p.set(align="center", font="b", bold=True, width=3, height=3, custom_size=True)
+    p.textln(data.title)
+    p.ln(2)
+    p.set(align="left", font="b", bold=False, width=2, height=2, custom_size=True)
+    for item in data.todos:
+        p.textln(f" [ ] {item}")
+        p.ln(1)
+    p.ln(5)
+    p.cut()
+    return {"message": "Generating todo list", "todos": data.todos}
 
 class SudokuRequest(BaseModel):
     difficulty: float = Field(0.4, ge=0.0, le=1.0)
