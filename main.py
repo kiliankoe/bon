@@ -6,7 +6,7 @@ from fastapi.responses import RedirectResponse
 from pydantic import BaseModel, Field
 from escpos.printer import Usb
 from sudoku import Sudoku
-from draw_sudoku import draw_sudoku
+from render import render_sudoku
 import textwrap
 
 from util import cat_announcement
@@ -32,7 +32,7 @@ async def daily(data: DailyReportRequest):
     p.textln("Daily Report")
     p.ln(2)
     p.cut()
-    return {"message": "Generating daily report", "todos": data.todos}
+    return {"message": "Printed daily report"}
 
 class ListRequest(BaseModel):
     title: str = "Einkaufsliste"
@@ -74,11 +74,11 @@ async def sudoku(data: SudokuRequest):
     puzzle = Sudoku(3, seed=random.randint(0, 1000000)).difficulty(data.difficulty)
     if os.path.exists("sudoku.png"):
         os.remove("sudoku.png")
-    draw_sudoku(puzzle.board)
+    render_sudoku(puzzle.board)
     p.image("sudoku.png")
     p.ln(2)
     p.cut()
-    return {"message": "Generating puzzle", "difficulty": data.difficulty}
+    return {"message": "Printed sudoku", "difficulty": data.difficulty}
 
 @app.post("/furby")
 async def furby():
@@ -87,7 +87,7 @@ async def furby():
     """
     p.image("furby.png")
     p.cut()
-    return {"message": "Generating furby", "cuteness": 1}
+    return {"message": "Printed furby"}
 
 class QRRequest(BaseModel):
     data: str
@@ -100,7 +100,7 @@ async def qr(data: QRRequest):
     """
     p.qr(data.data, size=data.size, center=True)
     p.cut()
-    return {"message": "Printed QR code", "data": data.data}
+    return {"message": "Printed QR code"}
 
 class TextRequest(BaseModel):
     title: str | None = None
@@ -118,7 +118,7 @@ async def text(data: TextRequest):
         p.ln(1)
     p.text(textwrap.fill(data.text, width=48))
     p.cut()
-    return {"message": "Printed text", "title": data.title, "text": data.text}
+    return {"message": "Printed text"}
 
 if __name__ == "__main__":
     uvicorn.run("main:app", host="192.168.178.45", port=8000, reload=True)
