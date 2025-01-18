@@ -34,44 +34,34 @@ async def daily(data: DailyReportRequest):
     p.cut()
     return {"message": "Generating daily report", "todos": data.todos}
 
-class ShoppingRequest(BaseModel):
+class ListRequest(BaseModel):
+    title: str = "Einkaufsliste"
     items: list[str]
+    item_prefix: str = "  - "
+    note: str | None = None
 
-@app.post("/shopping")
-async def shopping(data: ShoppingRequest):
-    """
-    Print a shopping list.
-    """
-    p.set(align="center", font="b", bold=True, width=3, height=3, custom_size=True)
-    p.textln("Einkaufsliste")
-    p.ln(2)
-    p.set(align="left", font="b", bold=False, width=2, height=2, custom_size=True)
-    for item in data.items:
-        p.textln(f"  - {item}")
-        p.ln(1)
-    p.ln(5)
-    p.cut()
-    return {"message": "Generating shopping list", "items": data.items}
+todo_prefix = " [ ] "
+shopping_prefix = "  - "
 
-class TodoRequest(BaseModel):
-    title: str = "ToDo"
-    todos: list[str]
-
-@app.post("/todo")
-async def todo(data: TodoRequest):
+@app.post("/list")
+async def list(data: ListRequest):
     """
-    Print a todo list.
+    Print a list of items.
     """
     p.set(align="center", font="b", bold=True, width=3, height=3, custom_size=True)
     p.textln(data.title)
     p.ln(2)
     p.set(align="left", font="b", bold=False, width=2, height=2, custom_size=True)
-    for item in data.todos:
-        p.textln(f" [ ] {item}")
+    for item in data.items:
+        p.textln(textwrap.fill(f"{data.item_prefix}{item}", width=48))
         p.ln(1)
+    if data.note:
+        p.ln(2)
+        p.set(align="center", font="b", bold=True, width=2, height=2, custom_size=True)
+        p.textln(textwrap.fill(f"{data.note}", width=48))
     p.ln(5)
     p.cut()
-    return {"message": "Generating todo list", "todos": data.todos}
+    return {"message": "Printed list"}
 
 class SudokuRequest(BaseModel):
     difficulty: float = Field(0.4, ge=0.0, le=1.0)
