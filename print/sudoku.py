@@ -14,7 +14,7 @@ class SudokuRequest(BaseModel):
 @router.post("/sudoku")
 async def sudoku(data: SudokuRequest):
     """
-    Print a sudoku puzzle with the given difficulty.
+    Print a sudoku puzzle with the given difficulty (percentage of empty cells).
     """
     puzzle = Sudoku(3, seed=random.randint(0, 1000000)).difficulty(data.difficulty)
     if os.path.exists("sudoku.png"):

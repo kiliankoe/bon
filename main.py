@@ -2,21 +2,16 @@ import uvicorn
 from fastapi import FastAPI
 from fastapi.responses import RedirectResponse
 
-from print_daily_report import router as daily_report_router
-from print_list import router as list_router
-from print_sudoku import router as sudoku_router
-from print_furby import router as furby_router
-from print_qr import router as qr_router
-from print_text import router as text_router
+from print import daily_report, list, sudoku, furby, qr, text
 
 app = FastAPI()
 
-app.include_router(daily_report_router)
-app.include_router(list_router)
-app.include_router(sudoku_router)
-app.include_router(furby_router)
-app.include_router(qr_router)
-app.include_router(text_router)
+app.include_router(daily_report.router)
+app.include_router(list.router)
+app.include_router(sudoku.router)
+app.include_router(furby.router)
+app.include_router(qr.router)
+app.include_router(text.router)
 
 @app.get("/")
 async def root():
