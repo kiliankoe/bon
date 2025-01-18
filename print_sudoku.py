@@ -1,4 +1,29 @@
+from fastapi import APIRouter
+from pydantic import BaseModel, Field
+from printer import printer as p
+from sudoku import Sudoku
+import os
+import random
 import matplotlib.pyplot as plt
+
+router = APIRouter()
+
+class SudokuRequest(BaseModel):
+    difficulty: float = Field(0.4, ge=0.0, le=1.0)
+
+@router.post("/sudoku")
+async def sudoku(data: SudokuRequest):
+    """
+    Print a sudoku puzzle with the given difficulty.
+    """
+    puzzle = Sudoku(3, seed=random.randint(0, 1000000)).difficulty(data.difficulty)
+    if os.path.exists("sudoku.png"):
+        os.remove("sudoku.png")
+    render_sudoku(puzzle.board)
+    p.image("sudoku.png")
+    p.ln(2)
+    p.cut()
+    return {"message": "Printed sudoku", "difficulty": data.difficulty}
 
 def render_sudoku(grid, filename='sudoku.png'):
     fig, ax = plt.subplots(figsize=(6, 6))
