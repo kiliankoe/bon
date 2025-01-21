@@ -25,9 +25,14 @@ async def image(data: ImageRequest):
 
     try:
         with Image.open(io.BytesIO(image_data)) as img:
-            max_size = 740
-            # TODO: Technically only the width needs to be constrained, the height can be whatever
-            img.thumbnail((max_size, max_size))
+            # Maximize printing area
+            if img.width > img.height:
+                img = img.rotate(90, expand=True)
+
+            target_width = 575
+            width_percent = (target_width / float(img.size[0]))
+            target_height = int((float(img.size[1]) * float(width_percent)))
+            img = img.resize((target_width, target_height))
 
             img.save("image.png", format='PNG')
     except Exception as e:
