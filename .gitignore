@@ -1,4 +1,5 @@
 .venv
+.direnv
 *.pyc
 sudoku.png
 image.png
