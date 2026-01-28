@@ -18,9 +18,12 @@
             packages = with pkgs; [
               python311
               uv
+              libusb1
+              usbutils
             ];
             LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath [
               pkgs.stdenv.cc.cc.lib
+              pkgs.libusb1
             ];
           };
         });
